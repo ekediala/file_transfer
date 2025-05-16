@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package transfer;
+
+option go_package = "generated/transferpb";
+
+service Transfer {
+    rpc GetFileSize(GetFileSizeRequest) returns (GetFileSizeResponse);
+    rpc StreamFile(StreamFileRequest) returns (stream StreamFileResponse);
+}
+
+message GetFileSizeRequest {
+    string file_name = 1;
+}
+
+message GetFileSizeResponse {
+    int64 size = 1;
+}
+
+message StreamFileRequest {
+    string file_name = 1;
+    int64 start = 2;
+    int32 chunk_size = 3;
+    bool can_decompress = 4;
+}
+
+message StreamFileResponse {
+    bytes chunk = 1;
+    bool compressed = 2;
+}
